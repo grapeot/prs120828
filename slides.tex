@@ -1,0 +1,47 @@
+\documentclass[12pt]{beamer}
+\author{}
+\title{}
+\subtitle{}
+\usetheme{Malmoe}
+\setbeamertemplate{navigation symbols}{}
+\newcommand*\oldmacro{}%
+\let\oldmacro\insertshorttitle%
+\renewcommand*\insertshorttitle{%
+\oldmacro\hfill%
+\insertframenumber\,/\,\inserttotalframenumber}
+
+\begin{document}
+
+\begin{frame}[plain]
+	\titlepage
+\end{frame}
+
+\begin{frame}{RGB-(D) Scene Labeling: Features and Algorithms}
+	\begin{itemize}
+		\item Problem: indoor scene, optical photo + depth image $\Rightarrow$ pixel-wise label
+		\item [Fig.1]
+		\item Evaluation: NYU Depth Dataset (13 categories), Stanford Background Dataset (8 categories, no depth info), Mean AP.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Intuition}
+	\begin{itemize}
+		\item Kernel Descriptor + Efficient Matching Kernel: pixel level features in different domains $\Rightarrow$ superpixel level feature
+		\item Segmentation tree: different scales of superpixel
+		\item Contextual refinement
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Approach}
+	\begin{itemize}
+		\item Segmentation trees
+		\begin{itemize}
+			\item gPb: local + global contrast cues $\Rightarrow$ pixel-level probability-of-boundary map
+			\item Extend to depth frames
+			\item Linear fusion for RGB-D frames
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\end{document}
+
