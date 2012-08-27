@@ -1,6 +1,6 @@
 \documentclass[12pt]{beamer}
-\author{}
-\title{}
+\author{Yan Wang}
+\title{Paper Reading Seminar}
 \subtitle{}
 \usetheme{Malmoe}
 \setbeamertemplate{navigation symbols}{}
@@ -18,8 +18,9 @@
 
 \begin{frame}{RGB-(D) Scene Labeling: Features and Algorithms}
 	\begin{itemize}
-		\item Problem: indoor scene, optical photo + depth image $\Rightarrow$ pixel-wise label
-		\item [Fig.1]
+		\item Problem: indoor scene, optical photo + depth image $\Rightarrow$ pixel-wise label \\
+		\medskip
+		\includegraphics[width=0.5\textwidth]{fig1.png} \\
 		\item Evaluation: NYU Depth Dataset (13 categories), Stanford Background Dataset (8 categories, no depth info), Mean AP.
 	\end{itemize}
 \end{frame}
@@ -52,43 +53,48 @@
 		\item Kernel descriptors
 		\begin{itemize}
 			\item Intuition: pixel features $\Rightarrow$ superpixel
-			\[F_\text{grad}^t = \sum_{z\in Z}\~{m}_zk_o(\~{\theta}_z, p_i)k_s(z, q_j)\]
-			\item [Fig. 3]
+			\[F_\text{grad}^t = \sum_{z\in Z}\tilde{m}_zk_o(\tilde{\theta}_z, p_i)k_s(z, q_j)\]
+			\includegraphics[width=0.7\textwidth]{fig3.png} \\
 			\item Use image gradient + spin/normal
 		\end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Approach}
-	\begin{itemize}
-		\item Classification
-		\begin{itemize}
-			\item Efficient Match Kernel for fixed-length features on superpixels
-			\item Linear SVM
-			\item Normalize on superpixel area ($A_s$)
-			\[A_s / (\sum_{q\in Q_c}A_q)^p\]
-		\end{itemize}
-		\item Segmentation tree
-		\begin{itemize}
-			\item Different level ($t$) of segmentation tree $\Leftrightarrow$ different scale of superpixels
-			\item [Fig. 2]
-			\item Tree(s) = $\{f_{t, c}(s_t)\}, \any t, c$
-		\end{itemize}
-	\end{itemize}
+	\begin{columns}[l]
+		\column{0.7\textwidth}
+			\begin{itemize}
+			\item Classification
+			\begin{itemize}
+				\item Efficient Match Kernel for fixed-length features on superpixels
+				\item Linear SVM
+				\item Normalize on superpixel area ($A_s$)
+				\[A_s / (\sum_{q\in Q_c}A_q)^p\]
+			\end{itemize}
+			\item Segmentation tree
+				\begin{itemize}
+					\item Different level ($t$) of segmentation tree $\Leftrightarrow$ different scale of superpixels \\
+					\item Tree(s) = $\{f_{t, c}(s_t)\}, \any t, c$
+				\end{itemize}
+			\end{itemize}
+		\column{0.3\textwidth}
+			\includegraphics[width=\textwidth]{fig2.png}
+	\end{columns}
 \end{frame}
 
 \begin{frame}{Approach}
 	\begin{itemize}
 		\item Segmentation tree
 		\begin{itemize}
-			\item Accumulate features along paths for better accuracy
-			\item [Fig. 4]
+			\item Accumulate features along paths for better accuracy \\
+			\medskip
+			\includegraphics[width=0.5\textwidth]{fig4.png}
 		\end{itemize}
 		\item Superpixel MRF with gPb
 		\begin{itemize}
 			\item Data term: $-f_{c, t}$
 			\item Smoothing term
-			\[V_{s, r} = \beta \exp(-\gamma \text{gPb_rgbd}(s, r))\]
+			\[V_{s, r} = \beta \exp(-\gamma \cdot \text{gPb}_\text{rgbd}(s, r))\]
 			\item Solve with graph-cut
 		\end{itemize}
 	\end{itemize}
