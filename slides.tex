@@ -39,7 +39,8 @@
 		\begin{itemize}
 			\item gPb: local + global contrast cues $\Rightarrow$ pixel-level probability-of-boundary map
 			\item Extend to depth frames
-			\item Linear fusion for RGB-D frames
+			\item Linear fusion for RGB-D frames \\
+            \[\text{gPb}_\text{rgbd} = (1 - \alpha) \cdot \text{gPb}_\text{rgb} + \alpha \cdot \text{gPb}_\text{d}\]
 		\end{itemize}
 		\item Feature design
 		\begin{itemize}
@@ -54,6 +55,7 @@
 		\begin{itemize}
 			\item Intuition: pixel features $\Rightarrow$ superpixel
 			\[F_\text{grad}^t = \sum_{z\in Z}\tilde{m}_zk_o(\tilde{\theta}_z, p_i)k_s(z, q_j)\]
+            ($p_i, q_j$ are randomly sampled from the superpixel)
 			\includegraphics[width=0.7\textwidth]{fig3.png} \\
 			\item Use image gradient + spin/normal
 		\end{itemize}
