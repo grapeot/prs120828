@@ -16,6 +16,73 @@
 	\titlepage
 \end{frame}
 
+\begin{frame}{Kernel descriptors for visual recognition}
+    \begin{itemize}
+        \item Problem: a distance metric for various visual features
+        \begin{itemize}
+            \item Orientation histogram (HoG, SIFT)
+            \item Color
+            \item Texture (binary patterns)
+        \end{itemize}
+        \item Efficiency
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Approach}
+    \begin{itemize}
+        \item Orientation histogram
+        \begin{itemize}
+            \item Input: orientation histogram of two patches $P$, $Q$
+            \[ K_\text{grad}(P, Q) = \sum_{z \in P} \sum_{z' \in Q} \tilde{m} (z) \tilde{m}(z') k_o\big(\tilde{\theta}(z), \tilde{\theta}(z')\big) k_p(z, z') \]
+            \item $\tilde{m}(z) \tilde{m}(z')$: magnitude of the gradient as weights
+            \item $k_o, k_p$ are Gaussian kernels, $k_p(z, z') = \exp \big( -\gamma_p \lVert z - z' \rVert^2 \big) $
+            \item $\tilde{\theta}(z) = [cos\big(\theta(z)\big), \sin\big(\theta(z)\big)]$. L2 distance $\Rightarrow$ difference of gradient orientations
+            \item $k_p$ measures the differences of pixel positions (for SIFT)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Approach}
+    \begin{itemize}
+        \item Color
+            { \footnotesize \[ K_\text{color}(P, Q) = \sum_{z \in P} \sum_{z' \in Q} k_c\big(c(z), c(z')\big) k_p(z, z') \] }
+        \item Shape
+        { \footnotesize \[ K_\text{shape}(P, Q) = \sum_{z \in P} \sum_{z' \in Q} \tilde{s}(z) \tilde{s}(z') k_b\big(b(z), b(z')\big) k_p(z, z') \] }
+        \begin{columns}
+        \column{0.7\textwidth}
+        \begin{itemize}
+            \item $\tilde{s}(z) = s(z) / \sqrt{\sum_{z \in P} s(z)^2 + \epsilon_s}$
+            \item $s(z)$: standard derivation of pixel values in the $3 \times 3$ pixels neighborhood
+            \item $b(z)$: binary pattern of the neighborhood
+        \end{itemize}
+        \column{0.3\textwidth}
+        \includegraphics[width=\textwidth]{kernel1.png}
+        \end{columns}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Learning compact features}
+    \begin{itemize}
+        \item Kernel $k(x, y) = \psi(x)^T\psi(y)$
+        \item Project to a low dimension space given bases $H = [\psi(z_1), \psi(z_2), ..., \psi(z_D)]$
+        \item Compute the coefficients with close form solution
+        \[ v_x^* = \arg \min_{v_x} \lVert \psi(x) - H v_x \rVert^2 \]
+        \[ v_x^* = \big(H^TH\big)^{-1}\big(H^T\psi(x)\big) \]
+        \item Approximate the kernel distance with the projection coefficient as the feature map
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Learning compact features}
+    \begin{itemize}
+        \item How to get the basis?
+        \begin{itemize}
+            \item Uniform dense sampling (like LSH?) from the support region (feature space)
+            \item Effective
+        \end{itemize}
+        \includegraphics[width=0.8\textwidth]{kernel2.png}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{RGB-(D) Scene Labeling: Features and Algorithms}
 	\begin{itemize}
 		\item Problem: indoor scene, optical photo + depth image $\Rightarrow$ pixel-wise label \\
