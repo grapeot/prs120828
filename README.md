@@ -1,6 +1,3 @@
-PaperReadingSeminar 2012-08-30
-=========
-
 This paper reading seminar will introduce 3 papers in one hour.
 
 * L. Bo, X. Ren, and D. Fox, “Kernel descriptors for visual recognition,” Advances in Neural Information Processing, 2010.
